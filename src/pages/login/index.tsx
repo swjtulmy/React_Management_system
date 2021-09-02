@@ -1,13 +1,29 @@
 import React from 'react'
+import { useHistory,  Redirect } from 'react-router-dom'
 import './login.less'
 import logo from './images/keqing.jpg'
-import { Form, Input, Button } from 'antd';
+import { Form, Input, Button, message } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
+import { reqLogin } from '../../api'
+import memoryUtils from '../../utils/memoryUtils';
+import { saveUser } from '../../utils/storageUtils'
 
+const Login = () => {
+  const history = useHistory();
+  const user: any = memoryUtils.user;
+  if (user && user._id) {
+    return <Redirect to='/' />
+  }
 
-export default function Login() {
-  const onFinish = (values: any) => {
-    console.log('Success:', values);
+  const onFinish = async (values: any) => {
+    const res: any = await reqLogin(values);
+    if (res.status === 0) {
+      message.success('登陆成功');
+      const user = res.data;
+      memoryUtils.user = user;
+      saveUser(user);
+      history.replace('/');
+    }
   };
   return (
     <div className="login">
@@ -48,8 +64,8 @@ export default function Login() {
                 message: "密码必须输入",
               },
               {
-                pattern: /^[A-Za-z\d$@$!%*#?&]{8,}$/,
-                message: "至少8个字符，不能有特殊字符和空格"
+                pattern: /^[A-Za-z\d$@$!%*#?&]{4,}$/,
+                message: "至少4个字符，不能有特殊字符和空格"
               }
             ]}
           >
@@ -70,3 +86,5 @@ export default function Login() {
     </div>
   )
 }
+
+export default Login;
