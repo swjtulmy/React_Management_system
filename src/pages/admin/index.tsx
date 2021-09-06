@@ -1,4 +1,4 @@
-import React from 'react'
+// import React from 'react'
 import { Redirect,Switch,Route } from 'react-router-dom'
 import { Layout } from 'antd';
 import memoryUtils from '../../utils/memoryUtils';
@@ -19,7 +19,6 @@ const admin = () => {
   const user: any = memoryUtils.user;
   console.log(user);
   if (!user || !user._id) {
-    // 自动跳转到登陆(在render()中)
     return <Redirect to='/login' />
   }
   return (
