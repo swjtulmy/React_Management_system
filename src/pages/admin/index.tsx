@@ -17,7 +17,6 @@ import Order from '../order/'
 const { Footer, Sider, Content } = Layout;
 const admin = () => {
   const user: any = memoryUtils.user;
-  console.log(user);
   if (!user || !user._id) {
     return <Redirect to='/login' />
   }

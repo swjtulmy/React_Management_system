@@ -106,7 +106,7 @@ const Home = () => {
     const result: any = await reqUpdateStatus(productId, status)
     if (result.status === 0) {
       message.success('更新商品成功')
-      getProducts(pageNum)
+      getProducts(pageNum);
     }
   }
 

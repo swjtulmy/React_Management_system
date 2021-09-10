@@ -25,6 +25,12 @@ export const reqProducts = (pageNum=1, pageSize=3) => ajax(BASE + '/manage/produ
 // 更新商品的状态(上架/下架)
 export const reqUpdateStatus = (productId="0", status=1) => ajax(BASE + '/manage/product/updateStatus', {productId, status}, 'POST')
 
+// 添加/更新用户
+export const reqAddOrUpdateUser = (user: any) => ajax(BASE + '/manage/user/'+(user._id? 'update' : 'add'), user, 'POST')
+// 删除指定名称的图片
+export const reqDeleteImg = (name: any) => ajax(BASE + '/manage/img/delete', {name}, 'POST')
+// 添加/修改商品
+export const reqAddOrUpdateProduct = (product: any) => ajax(BASE + '/manage/product/' + ( product._id?'update':'add'), product, 'POST')
 /*
 搜索商品分页列表 (根据商品名称/商品描述)
 searchType: 搜索的类型, productName/productDesc

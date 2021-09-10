@@ -7,8 +7,6 @@ import {getUser} from './utils/storageUtils';
 memoryUtils.user = getUser();
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+    <App />,
   document.getElementById('root')
 );
