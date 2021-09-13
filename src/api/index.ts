@@ -40,6 +40,13 @@ export const reqSearchProducts = (pageNum=1, pageSize=3, searchName="", searchTy
   pageSize,
   [searchType]: searchName,
 })
+// 获取所有角色的列表
+export const reqRoles = () => ajax(BASE + '/manage/role/list')
+// 添加角色
+export const reqAddRole = (roleName: any) => ajax(BASE + '/manage/role/add', {roleName}, 'POST')
+// 添加角色
+export const reqUpdateRole = (role: any) => ajax(BASE + '/manage/role/update', role, 'POST')
+
 
 export const reqWeather = (city = "110000") => {
 
