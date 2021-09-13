@@ -10,12 +10,12 @@ const Item = Form.Item
 
 const { TreeNode } = Tree
 
-interface IProps {
+interface Iprops {
   cRef: React.MutableRefObject<any>;
   role: any;
 }
 
-const AuthForm: FC<IProps> = ({
+const AuthForm: FC<Iprops> = ({
   cRef, role
 }) => {
 

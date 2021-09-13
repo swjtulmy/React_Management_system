@@ -1,4 +1,4 @@
-// eslint-disable-next-line import/no-anonymous-default-export
+let user: any;
 export default {
-  user: {}, // 保存当前登陆的user
+  user , // 保存当前登陆的user
 }

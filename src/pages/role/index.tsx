@@ -95,13 +95,13 @@ const Role = () => {
   更新角色
    */
   const updateRole = async () => {
-
     // 隐藏确认框
     setisShowAuth(false);
 
     const r = role;
     // 得到最新的menus
-    const menus = auth.current;
+    const au: any = auth.current;
+    const menus = au.getMenus();
     r.menus = menus
     r.auth_time = Date.now()
     const u: any = memoryUtils.user
@@ -109,6 +109,7 @@ const Role = () => {
 
     // 请求更新
     const result: any = await reqUpdateRole(role)
+    console.log(result);
     if (result.status === 0) {
       // this.getRoles()
       // 如果当前更新的是自己角色的权限, 强制退出

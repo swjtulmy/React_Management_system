@@ -25,8 +25,6 @@ export const reqProducts = (pageNum=1, pageSize=3) => ajax(BASE + '/manage/produ
 // 更新商品的状态(上架/下架)
 export const reqUpdateStatus = (productId="0", status=1) => ajax(BASE + '/manage/product/updateStatus', {productId, status}, 'POST')
 
-// 添加/更新用户
-export const reqAddOrUpdateUser = (user: any) => ajax(BASE + '/manage/user/'+(user._id? 'update' : 'add'), user, 'POST')
 // 删除指定名称的图片
 export const reqDeleteImg = (name: any) => ajax(BASE + '/manage/img/delete', {name}, 'POST')
 // 添加/修改商品
@@ -46,6 +44,14 @@ export const reqRoles = () => ajax(BASE + '/manage/role/list')
 export const reqAddRole = (roleName: any) => ajax(BASE + '/manage/role/add', {roleName}, 'POST')
 // 添加角色
 export const reqUpdateRole = (role: any) => ajax(BASE + '/manage/role/update', role, 'POST')
+
+// 获取所有用户的列表
+export const reqUsers = () => ajax(BASE + '/manage/user/list')
+// 删除指定用户
+export const reqDeleteUser = (userId: any) => ajax(BASE + '/manage/user/delete', {userId}, 'POST')
+// 添加/更新用户
+export const reqAddOrUpdateUser = (user: any) => ajax(BASE + '/manage/user/'+(user._id ? 'update' : 'add'), user, 'POST')
+
 
 
 export const reqWeather = (city = "110000") => {
