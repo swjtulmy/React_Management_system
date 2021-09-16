@@ -1,29 +1,27 @@
-import React from 'react'
+import React, {FC} from 'react'
 import { useHistory,  Redirect } from 'react-router-dom'
 import './login.less'
 import logo from './images/keqing.jpg'
-import { Form, Input, Button, message } from 'antd';
+import { Form, Input, Button, message, Result } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
-import { reqLogin } from '../../api'
-import memoryUtils from '../../utils/memoryUtils';
-import { saveUser } from '../../utils/storageUtils'
+import {login} from '../../redux/actions'
+import {connect} from 'react-redux'
 
-const Login = () => {
-  const history = useHistory();
-  const user: any = memoryUtils.user;
+interface Iprops {
+  user: any;
+  login: Function
+}
+
+const Login:FC<Iprops> = ({
+  user,login
+}) => {
   if (user && user._id) {
-    return <Redirect to='/' />
+    return <Redirect to='/home' />
   }
 
   const onFinish = async (values: any) => {
-    const res: any = await reqLogin(values);
-    if (res.status === 0) {
-      message.success('登陆成功');
-      const user = res.data;
-      memoryUtils.user = user;
-      saveUser(user);
-      history.replace('/');
-    }
+    console.log(values);
+    login(values);
   };
   return (
     <div className="login">
@@ -87,4 +85,7 @@ const Login = () => {
   )
 }
 
-export default Login;
+export default connect(
+  (state: any) => ({user: state.user}),
+  {login}
+)(Login);

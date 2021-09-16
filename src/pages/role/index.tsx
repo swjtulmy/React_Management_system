@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react'
+import React, { useState, useRef, useEffect,FC } from 'react'
 import {
   Card,
   Button,
@@ -11,14 +11,20 @@ import { PAGE_SIZE } from "../../utils/constants"
 import { reqRoles, reqAddRole, reqUpdateRole } from '../../api'
 import AddForm from './add-form'
 import AuthForm from './auth-form'
-import memoryUtils from "../../utils/memoryUtils"
 import { formateDate } from '../../utils/fomateDate'
-import { removeUser } from "../../utils/storageUtils";
 import { useHistory } from 'react-router'
+import { connect } from 'react-redux'
+import {logout} from '../../redux/actions'
 
+interface Iprops {
+  user: any;
+  logout: Function
+}
 let columns: any;
 
-const Role = () => {
+const Role:FC<Iprops> = ({
+  user
+}) => {
   const [roles, setroles] = useState([] as any);
   const [role, setrole] = useState({} as any);
   const [isShowAdd, setisShowAdd] = useState(false);
@@ -104,7 +110,7 @@ const Role = () => {
     const menus = au.getMenus();
     r.menus = menus
     r.auth_time = Date.now()
-    const u: any = memoryUtils.user
+    const u: any = user
     r.auth_name = u.username
 
     // 请求更新
@@ -114,8 +120,7 @@ const Role = () => {
       // this.getRoles()
       // 如果当前更新的是自己角色的权限, 强制退出
       if (role._id === u.role_id) {
-        memoryUtils.user = {}
-        removeUser()
+        logout();
         history.replace('/login')
         message.success('当前用户角色权限成功')
       } else {
@@ -175,4 +180,7 @@ const Role = () => {
     </Card>
   )
 }
-export default Role;
+export default connect(
+  (state: any) => ({user: state.user}),
+  {logout}
+)(Role);

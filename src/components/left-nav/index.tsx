@@ -1,23 +1,29 @@
-import React from 'react'
+import React, { FC } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { Menu } from 'antd';
 import * as Icon from '@ant-design/icons'
 import './index.less'
 import menuList from '../../config/menuConfig';
 import logo from '../../assets/keqing.jpg'
-import memoryUtils from "../../utils/memoryUtils";
+import { connect } from 'react-redux'
+import { setHeadTitle } from '../../redux/actions'
 
 const { SubMenu } = Menu;
-
-const LeftNav = () => {
+interface Iprops {
+  user: any;
+  setHeadTitle: Function;
+}
+const LeftNav: FC<Iprops> = ({
+  setHeadTitle, user
+}) => {
   const { pathname } = useLocation();
   let openkey = '';
 
   const hasAuth = (item: any) => {
     const { key, isPublic } = item
 
-    const menus = memoryUtils.user.role.menus;
-    const username = memoryUtils.user.username;
+    const menus = user.role.menus;
+    const username = user.username;
     /*
     1. 如果当前用户是admin
     2. 如果当前item是公开的
@@ -35,14 +41,14 @@ const LeftNav = () => {
 
   const getMenuNodes = (function getMenu(menuList: any) {
     return menuList.map((item: any) => {
-      if(hasAuth(item)) {
+      if (hasAuth(item)) {
         const icon = React.createElement(
           Icon[item.icon as keyof typeof Icon] as any
         )
         if (!item.children) {
           return (
             <Menu.Item key={item.key} icon={icon}>
-              <Link to={item.key}>
+              <Link to={item.key} onClick={() => setHeadTitle(item.title)}>
                 {item.title}
               </Link>
             </Menu.Item>
@@ -85,4 +91,7 @@ const LeftNav = () => {
     </div>
   )
 }
-export default LeftNav;
+export default connect(
+  (state: any) => ({ user: state.user }),
+  { setHeadTitle }
+)(LeftNav);
